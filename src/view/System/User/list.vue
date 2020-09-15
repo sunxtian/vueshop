@@ -27,7 +27,7 @@
           <el-button
             type="danger"
             size="small"
-            @click="del(scope.row.id)"
+            @click="del(scope.row.uid)"
             circle
             icon="el-icon-delete"
           ></el-button>
@@ -78,14 +78,14 @@ export default {
     edit(val) {
       this.$emit("edit", { ...val });
     },
-    async del(id) {
+    async del(uid) {
       this.$confirm("确认删除吗?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
       })
         .then(async () => {
-          let res = await delUser(id);
+          let res = await delUser(uid);
           if (res.code == 200) {
             this.$message.success(res.msg);
             if (this.userlist.length == 1 && this.page != 1) {

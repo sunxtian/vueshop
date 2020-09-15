@@ -34,8 +34,8 @@ export function editUser(data) {
  * 删除管理员
  * @param {*} id  删除的ID
  */
-export function delUser(id) {
-    return $axios.post("/userdelete", { id })
+export function delUser(uid) {
+    return $axios.post("/userdelete", { uid })
 }
 
 export async function getTotal(){

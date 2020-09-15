@@ -12,9 +12,9 @@
       </el-form-item>
       <el-form-item v-if="forminfo.type==2" label="上级目录">
         <el-select v-model="forminfo.pid" placeholder="请选择">
-          <el-option label="顶级目录" :value="0"></el-option>
+          <el-option label="顶级目录" :valcateue="0"></el-option>
           <el-option
-            v-for="item in menulist"
+            v-for="item in catelist"
             v-if="item.type==1"
             :key="item.id"
             :label="item.title"
@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import { addMenu, editMenu } from "@/request/menu";
+import { addCategory, editCategory } from "@/request/category";
 import { mapGetters, mapActions } from "vuex";
 let defaultItem = {
   pid: 0,

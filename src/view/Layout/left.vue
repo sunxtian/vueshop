@@ -25,9 +25,9 @@
           <el-menu-item :index="val.url" v-for="(val,idx) in item.children" :key="idx">{{val.title}}</el-menu-item>
         </el-submenu>
       </template>
-      <el-button @click="upd">
+      <!-- <el-button @click="upd">
         菜单更新
-      </el-button>
+      </el-button> -->
     </el-menu>
   </div>
 </template>

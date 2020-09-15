@@ -6,6 +6,7 @@ Vue.use(Vuex);
 import menu from "./modules/menu"
 import role from "./modules/role"
 import user from "./modules/user"
+import category from "./modules/category"
 let store= new Vuex.Store({
     state:{
         isCollapse: false,
@@ -18,7 +19,7 @@ let store= new Vuex.Store({
     },
     actions:{},
     modules:{
-        menu,role,user
+        menu,role,user,category
     },
     
 })
