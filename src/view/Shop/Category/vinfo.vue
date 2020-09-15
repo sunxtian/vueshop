@@ -60,7 +60,7 @@ export default {
       default() {
         return {
           // dialogVisible: false,
-          isAdd: false,
+          isAdd: tree,
           isShow: false,
         };
       },
@@ -84,7 +84,6 @@ export default {
   },
   created() {},
   mounted() {
-    console.log("aaa");
     if (!this.catelist.length) {
       this.get_category_list();
     }
@@ -93,7 +92,26 @@ export default {
     ...mapActions({
       get_category_list: "category/get_category_list",
     }),
+    see(file) {
+      this.dialogVisible = true;
+      this.dialogImageUrl = file.url;
+    },
+    change(file, filelist) {
+      this.forminfo.img = file.raw;
+    },
+    remove(file, filelist) {
+      this.forminfo.img = "";
+    },
     setinfo(val) {
+      if (val.img) {
+        thsi.filelist = [
+          {
+            name: val.catenam,
+            url: this.$host + val.img,
+          },
+        ];
+      }
+      val.children ? delete val.children : "";
       defaultItem = { ...val };
       this.forminfo = { ...val };
     },
@@ -103,10 +121,14 @@ export default {
       this.$refs.form.validate(async (valid) => {
         if (valid) {
           let res;
+          let fd = new FormData();
+          for (let k in this.forminfo) {
+            fd.append(k, this.forminfo[k]);
+          }
           if (this.info.isAdd) {
-            res = await addCategory(this.forminfo);
+            res = await addCategory(fd);
           } else {
-            res = await editCategory(this.forminfo);
+            res = await editCategory(fd);
           }
           if (res.code === 200) {
             this.$message.success(res.msg);
