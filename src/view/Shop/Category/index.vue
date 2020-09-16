@@ -1,7 +1,7 @@
 <template>
  <div>
    <!-- <el-button type="primary"  @click="add"> 添加菜单</el-button> -->
-   <el-button type="primary" @click="add">添加菜单</el-button>
+   <el-button type="primary" @click="add">添加类别</el-button>
 
     <v-list @edit="edit"></v-list>
     <v-info :info="info" ref="dialog"></v-info>
@@ -28,7 +28,7 @@ import VInfo from "./vinfo"
      },
      add(){
        this.info.isAdd = this.info.isShow = true; 
-       console.log("哈哈")
+       
      },
      edit(val){
         this.info.isAdd = false;

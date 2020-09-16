@@ -7,7 +7,7 @@
       <el-table-column label="分类图片">
         <template slot-scope="scope">
          
-                  <img style="width:80px" v-if="scope.row.img" :src="scope.row.img | pixImg" alt="">
+                  <img style="width:80px" v-if="scope.row.img" :src="scope.row.img |  pixImg" alt="">
                   <span v-else>暂无图片</span>
               </template>
       </el-table-column>
@@ -52,7 +52,7 @@ export default {
     }),
   },
  mounted() {
-    console.log(pixImg);
+    
     if (!this.catelist.length) {
       this.get_category_list();
     }

@@ -6,10 +6,13 @@ import router from './router'
 // import "../static/js/rem"
 import store from "./store"
 import filterObj from "./filter"
+if (process.env.NODE_ENV =='development'){  // 开发环境！
+  // 给JS里面使用！
+  Vue.prototype.$host = "http://localhost:3030"
+}
 for(let k in filterObj){
   Vue.filter(k,filterObj[k])
 }
-
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 

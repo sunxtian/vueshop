@@ -1,5 +1,5 @@
 <template>
-  <el-dialog title="增加类别" :visible.sync="info.isShow" width="40%">
+  <el-dialog title="增加类别" :visible.sync="info.isShow" @close="cancel" width="40%">
     <el-form :model="forminfo" ref="form" :rules="rules" label-width="140px">
       <el-form-item label="上级目录">
         <el-select v-model="forminfo.pid" placeholder="请选择">
@@ -98,7 +98,6 @@ export default {
     },
     change(file, filelist) {
       this.forminfo.img = file.raw;
-      console.log(file.raw)
     },
     remove(file, filelist) {
       this.forminfo.img = "";
@@ -107,7 +106,7 @@ export default {
       if (val.img) {
         this.filelist = [
           {
-            name: val.catenam,
+            name: val.catename,
             url: this.$host + val.img,
           },
         ];
@@ -115,6 +114,8 @@ export default {
       val.children ? delete val.children : "";
       defaultItem = { ...val };
       this.forminfo = { ...val };
+      this.dialogImageUrl = this.$host + val.img;
+      console.log(this.filelist.url);
     },
     async sumbit() {
       console.log(this.forminfo);
@@ -140,7 +141,6 @@ export default {
           } else {
             this.$message.error(res.msg);
           }
-          this.forminfo = { ...defaultItem };
         }
       });
     },
@@ -156,7 +156,8 @@ export default {
     cancel() {
       //  // 无论是修改成功还是添加成功，都应该让表单为空！或者弹框关闭的时候！
       this.forminfo = { ...resetItem };
-      this.filelist = []; // 设为空，就没有了！
+      this.filelist = []; // 设为空，就没有了
+      console.log(this.forminfo);
     },
   },
   components: {},
