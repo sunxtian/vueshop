@@ -1,6 +1,6 @@
 
 export default {
-    pixImg:function(val,pix='http://localhost:3333'){
-        return pix+val
+    pixImg: function (val, pix = 'http://localhost:3030') {
+        return pix + val;
     }
 }

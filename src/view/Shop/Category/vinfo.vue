@@ -52,7 +52,7 @@ let defaultItem = {
   img: "",
   status: 1, // 状态1正常2禁用
 };
-let restertItem = { ...defaultItem };
+let resetItem = { ...defaultItem };
 export default {
   props: {
     info: {
@@ -98,13 +98,14 @@ export default {
     },
     change(file, filelist) {
       this.forminfo.img = file.raw;
+      console.log(file.raw)
     },
     remove(file, filelist) {
       this.forminfo.img = "";
     },
     setinfo(val) {
       if (val.img) {
-        thsi.filelist = [
+        this.filelist = [
           {
             name: val.catenam,
             url: this.$host + val.img,
@@ -127,6 +128,7 @@ export default {
           }
           if (this.info.isAdd) {
             res = await addCategory(fd);
+            console.log(fd.img);
           } else {
             res = await editCategory(fd);
           }
@@ -134,16 +136,27 @@ export default {
             this.$message.success(res.msg);
             this.info.isShow = false;
             this.get_category_list();
-            this.forminfo = { ...defaultItem };
+            this.cancel();
           } else {
             this.$message.error(res.msg);
           }
-          this.forminfo = { ...restertItem };
+          this.forminfo = { ...defaultItem };
         }
       });
     },
     reset() {
-      this.forminfo = { ...restertItem };
+      if (this.info.isAdd) {
+        // 添加时候的重置！
+        this.forminfo = { ...resetItem };
+      } else {
+        // 修改时候的重置！
+        this.setinfo({ ...defaultItem });
+      }
+    },
+    cancel() {
+      //  // 无论是修改成功还是添加成功，都应该让表单为空！或者弹框关闭的时候！
+      this.forminfo = { ...resetItem };
+      this.filelist = []; // 设为空，就没有了！
     },
   },
   components: {},
