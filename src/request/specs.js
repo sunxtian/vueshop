@@ -3,9 +3,9 @@ import $axios from "@/common/http"  // 导入封装好的axios!
 /**
  * 获取分类列表
  */
-export async function getSpecs() {
+export async function getSpecs(page,size) {
 
-    let res = await $axios.get("/specslist",{
+    let res = await $axios.get(`/specslist?page=${page}&size=${size}`,{
         page,size
     })
     if(res.code==200 && res.list){
@@ -37,6 +37,6 @@ export function delSpecs(id) {
 }
 
 export async function  getTotal(){
-    let res = await $axios.get("/response")
+    let res = await $axios.get("/specscount")
     return res.list[0].total;
 }
