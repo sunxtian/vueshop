@@ -27,4 +27,7 @@ import Tab from '@/components/Tab'
 .el-dialog__header{
   border-bottom: 2px solid;
 }
+.el-button{
+  margin: 10px;
+}
 </style>

@@ -1,8 +1,6 @@
 <template>
-
   <el-container class="page">
     <el-aside :width="isCollapse ? '64px' : '220px'" class="page-nav">
-    
       <left />
     </el-aside>
     <el-container>
@@ -17,20 +15,21 @@
 </template>
 
 <script>
-import left from "./left"
-import top from "./top"
+import left from "./left";
+import top from "./top";
 import { mapState } from "vuex";
 export default {
   data() {
     return {};
   },
-  computed:{
-    ...mapState(['isCollapse'])
+  computed: {
+    ...mapState(["isCollapse"]),
   },
   created() {},
   methods: {},
   components: {
-    top,left
+    top,
+    left,
   },
 };
 </script>
@@ -40,9 +39,9 @@ export default {
   width: 100vw;
   height: 100vh;
 }
-.page-nav{
-    height: 100%;
-    background-color: #444;
+.page-nav {
+  height: 100%;
+  background-color: #444;
 }
 .el-aside {
   background-color: #d3dce6;
@@ -60,6 +59,5 @@ export default {
 .el-main {
   background-color: #e9eef3;
   color: #333;
-  
 }
 </style>

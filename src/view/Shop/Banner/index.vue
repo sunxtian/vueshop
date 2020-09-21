@@ -1,7 +1,7 @@
 <template>
  <div>
-   <!-- <el-button type="primary"  @click="add"> 添加菜单</el-button> -->
-   <el-button type="primary" @click="add">添加菜单</el-button>
+  
+   <el-button type="primary" @click="add">添加轮播图</el-button>
 
     <v-list @edit="edit"></v-list>
     <v-info :info="info" ref="dialog"></v-info>
@@ -44,5 +44,7 @@ import VInfo from "./vinfo"
 </script>
 
 <style scoped>
-
+.el-button{
+  margin: 10px;
+}
 </style>

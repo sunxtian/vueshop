@@ -1,22 +1,16 @@
 <template>
   <div class="table-bg">
-    
-    <el-table :data="menulist" row-key="id" :tree-props="{children: 'children'}">
+    <el-table :data="bannerlist" row-key="id" :tree-props="{children: 'children'}">
       <el-table-column prop="id" label="ID" align="center"></el-table-column>
-      <el-table-column prop="title" label="菜单名称" align="center"></el-table-column>
-      <el-table-column prop="url" label="菜单地址" align="center"></el-table-column>
-      <el-table-column label="图标">
+      <el-table-column prop="title" label="分类名称" align="center"></el-table-column>
+      <el-table-column prop="img" label="分类图片" align="center">
         <template slot-scope="scope">
-          <i :class="scope.row.icon"></i>
+          <img style="width:80px" v-if="scope.row.img" :src="scope.row.img |  pixImg" alt />
+          <span v-else>暂无图片</span>
         </template>
       </el-table-column>
-      <el-table-column label="类型">
-        <template slot-scope="scope">
-          <el-tag type="success" v-if="scope.row.type==1">目录</el-tag>
-          <el-tag type="warning" v-if="scope.row.type==2">菜单</el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column label="修改">
+
+      <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button
             type="primary"
@@ -39,26 +33,26 @@
 </template>
 <script>
 import { mapGetters, mapActions } from "vuex";
-import { delMenu, getMenu } from "@/request/menu";
+import { delBanner, getBanner } from "@/request/banner";
 export default {
   data() {
     return {};
   },
   computed: {
     ...mapGetters({
-      menulist: "menu/menulist",
+      bannerlist: "banner/bannerlist",
     }),
   },
- mounted() {
+  mounted() {
     console.log(mapGetters);
-    if (!this.menulist.length) {
-      this.get_menu_list();
+    if (!this.bannerlist.length) {
+      this.get_banner_list();
     }
-    console.log(this.menulist);
+    console.log(this.bannerlist);
   },
   methods: {
     ...mapActions({
-      get_menu_list: "menu/get_menu_list",
+      get_banner_list: "banner/get_banner_list",
     }),
     edit(val) {
       this.$emit("edit", { ...val });
@@ -70,10 +64,10 @@ export default {
         type: "warning",
       })
         .then(async () => {
-          let res = await delMenu(id);
+          let res = await delBanner(id);
           if (res.code == 200) {
             this.$message.success(res.msg);
-            this.get_menu_list(); // 重新获取列表！
+            this.get_banner_list(); // 重新获取列表！
           } else {
             this.$message.error(res.msg);
           }

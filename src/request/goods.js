@@ -85,6 +85,6 @@ export function delGoods(id) {
 // 获取管理个数
 export async function getTotal() {
     let res = await $axios.get("/goodscount")
-    return res.list[0].total
+    return res.list[0].total;
 }
 

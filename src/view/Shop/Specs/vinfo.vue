@@ -73,7 +73,7 @@ export default {
     addAttrs() {
       this.list.push({ value: "" });
     },
-    delAttrs() {
+    delAttrs(idx) {
       this.list.splice(idx, 1);
     },
 

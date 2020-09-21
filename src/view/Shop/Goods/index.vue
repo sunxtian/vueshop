@@ -44,5 +44,7 @@ import VInfo from "./vinfo"
 </script>
 
 <style scoped>
-
+.el-button{
+  margin: 10px;
+}
 </style>
