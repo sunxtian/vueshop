@@ -1,11 +1,19 @@
 <template>
-  <el-dialog title="添加活动" :visible.sync="info.isShow" @close="cancel" width="60%">
+  <el-dialog
+    :title="info.isAdd ? '添加活动' : '修改活动'"
+    :visible.sync="info.isShow"
+    @close="cancel"
+    width="60%"
+  >
     <el-form :model="forminfo" ref="form" :rules="rules" label-width="100px">
       <el-tabs v-model="activeName">
         <el-row>
           <el-col :span="15" :offset="5">
             <el-form-item label="活动名称" prop="title">
-              <el-input v-model="forminfo.title" placeholder="请输入活动名称"></el-input>
+              <el-input
+                v-model="forminfo.title"
+                placeholder="请输入活动名称"
+              ></el-input>
             </el-form-item>
             <el-form-item label="活动名称" prop="time">
               <el-date-picker
@@ -19,7 +27,11 @@
               ></el-date-picker>
             </el-form-item>
             <el-form-item label="一级分类">
-              <el-select v-model="forminfo.first_cateid" @change="topChange" placeholder="请选择">
+              <el-select
+                v-model="forminfo.first_cateid"
+                @change="topChange"
+                placeholder="请选择"
+              >
                 <el-option
                   v-for="item in catelist"
                   :key="item.id"
@@ -29,7 +41,11 @@
               </el-select>
             </el-form-item>
             <el-form-item label="二级分类">
-              <el-select v-model="forminfo.second_cateid" @change="goChange" placeholder="请选择">
+              <el-select
+                v-model="forminfo.second_cateid"
+                @change="goChange"
+                placeholder="请选择"
+              >
                 <el-option
                   v-for="item in secondlist"
                   :key="item.id"
@@ -127,13 +143,13 @@ export default {
         ],
       },
 
-      value2: "",
+      value2: [],
     };
   },
   computed: {
     ...mapGetters({
       catelist: "category/catelist",
-      specslist: "specs/specslist",
+      // specslist: "specs/specslist",
       goodslist: "goods/goodslist",
     }),
   },
@@ -142,9 +158,9 @@ export default {
     if (!this.catelist.length) {
       this.get_category_list();
     }
-    if (!this.specslist.length) {
-      this.get_specs_list();
-    }
+    // if (!this.specslist.length) {
+    //   this.get_specs_list();
+    // }
     if (!this.goodslist.length) {
       this.get_goods_list();
     }
@@ -153,13 +169,12 @@ export default {
   methods: {
     ...mapActions({
       get_category_list: "category/get_category_list",
-      get_specs_list: "specs/get_specs_list",
+      // get_specs_list: "specs/get_specs_list",
       get_goods_list: "goods/get_goods_list",
-      get_seck_list:"seckill/get_seck_list"
+      get_seck_list: "seckill/get_seck_list",
     }),
 
     topChange(id) {
-      
       (this.secondlist = []), (this.forminfo.second_cateid = "");
       this.catelist.forEach((val) => {
         // console.log(val)
@@ -169,25 +184,15 @@ export default {
       });
     },
     goChange(id) {
-      console.log(id);
       (this.thirdlist = []), (this.forminfo.goodsid = "");
       this.goodslist.forEach((val) => {
-        // console.log(val)
+        
         if (val.second_cateid == id) {
           this.thirdlist.push(val);
         }
       });
     },
-    specsChange(id) {
-      // 规格名发生变化
-      this.attrslist = [];
-      this.forminfo.specsattr = [];
-      this.specslist.forEach((val) => {
-        if (val.id == id) {
-          this.attrslist = val.attrs;
-        }
-      });
-    },
+    
     goodsChange(id) {
       this.filelist = [];
       this.forminfo.goodsid = [];
@@ -201,32 +206,36 @@ export default {
       // this.value2.begintime = val.begintime
       // this.value2.endtime = val.endtime
       val.children ? delete val.children : "";
+      
+      this.value2.push(new Date(parseInt(val.begintime)).toString());
+      this.value2.push(new Date(parseInt(val.endtime)).toString());
+      // console.log(this.value2);
       this.topChange(val.first_cateid);
-      this.specsChange(val.specsid);
+      // this.specsChange(val.specsid);
+      this.goChange(val.second_cateid);
       "firstcatename" in val ? delete val.firstcatename : "";
       "secondcatename" in val ? delete val.secondcatename : "";
-
+      "goodsname" in val ? delete val.goodsname : "";
       defaultItem = { ...val };
       this.forminfo = { ...val };
     },
     async sumbit() {
-      console.log(this.value2[0].getTime());
+      console.log(this.value2);
 
-      this.forminfo.begintime = this.value2[0].getTime();
-      this.forminfo.endtime = this.value2[1].getTime();
+      this.forminfo.begintime = Date.parse(new Date(this.value2[0]));
+      // this.value2[0].getTime(
+      this.forminfo.endtime = Date.parse(new Date(this.value2[0]));
+      // this.value2[1].getTime();
       console.log(this.forminfo);
       // this.forminfo.description = this.$refs.Wangeditor.getHtml();
       // return ;
       this.$refs.form.validate(async (valid) => {
         if (valid) {
           let res;
-          // let fd = new FormData();
-          // for (let k in this.forminfo) {
-          //   fd.append(k, this.forminfo[k]);
-          // }
+          
           if (this.info.isAdd) {
             res = await addSeck(this.forminfo);
-            // console.log(fd.img);
+          
           } else {
             res = await editSeck(this.forminfo);
           }
@@ -234,7 +243,6 @@ export default {
             this.$message.success(res.msg);
             this.info.isShow = false;
             this.get_seck_list();
-          
           } else {
             this.$message.error(res.msg);
           }
@@ -253,6 +261,7 @@ export default {
     cancel() {
       //  // 无论是修改成功还是添加成功，都应该让表单为空！或者弹框关闭的时候！
       this.forminfo = { ...resetItem };
+      this.value2 = [];
       // this.filelist = []; // 设为空，就没有了
     },
   },

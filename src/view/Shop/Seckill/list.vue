@@ -1,7 +1,7 @@
 <template>
   <div class="table-bg">
     <el-table :data="secklist">
-      <el-table-column prop="id" label="ID" width="40" align="center"></el-table-column>
+      <el-table-column prop="title" label="活动名称" width="150" align="center"></el-table-column>
 
       <el-table-column   label="开始时间" align="center">
         <template slot-scope="scope">
@@ -17,7 +17,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="状态">
+      <el-table-column label="状态"   width="80">
         <template slot-scope="scope">
           <el-tag type="success" v-if="scope.row.status==1">启用</el-tag>
           <el-tag type="danger" v-if="scope.row.status==2">禁用</el-tag>
