@@ -10,6 +10,7 @@ import category from "./modules/category"
 import specs from "./modules/specs"
 import goods from "./modules/goods"
 import banner from "./modules/banner"
+import seckill from "./modules/seckill"
 let store= new Vuex.Store({
     state:{
         isCollapse: false,
@@ -22,7 +23,7 @@ let store= new Vuex.Store({
     },
     actions:{},
     modules:{
-        menu,role,user,category,specs,goods,banner
+        menu,role,user,category,specs,goods,banner,seckill
     },
     
 })

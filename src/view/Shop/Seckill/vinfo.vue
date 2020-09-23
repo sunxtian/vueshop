@@ -1,104 +1,60 @@
 <template>
-  <el-dialog :title="info.isAdd ? '增加商品' : '修改商品'" :visible.sync="info.isShow" @close="cancel" width="60%">
+  <el-dialog title="添加活动" :visible.sync="info.isShow" @close="cancel" width="60%">
     <el-form :model="forminfo" ref="form" :rules="rules" label-width="100px">
       <el-tabs v-model="activeName">
-        <el-tab-pane label="基本信息" name="first">
-          <el-row>
-            <el-col :span="15" :offset="5">
-              <el-form-item label="一级分类">
-                <el-select v-model="forminfo.first_cateid" @change="topChange" placeholder="请选择">
-                  <el-option
-                    v-for="item in catelist"
-                    :key="item.id"
-                    :label="item.catename"
-                    :value="item.id"
-                  ></el-option>
-                </el-select>
-              </el-form-item>
-              <el-form-item label="二级分类">
-                <el-select v-model="forminfo.second_cateid" placeholder="请选择">
-                  <el-option
-                    v-for="item in secondlist"
-                    :key="item.id"
-                    :label="item.catename"
-                    :value="item.id"
-                  ></el-option>
-                </el-select>
-              </el-form-item>
-              <el-form-item label="商品名称" prop="goodsname">
-                <el-input v-model="forminfo.goodsname" placeholder="请输入商品名称"></el-input>
-              </el-form-item>
-              <el-form-item label="商品价格" prop="price">
-                <el-input v-model="forminfo.price" placeholder="请输入商品价格"></el-input>
-              </el-form-item>
-              <el-form-item label="市场价格" prop="market_price">
-                <el-input v-model="forminfo.market_price" placeholder="请输入市场价格"></el-input>
-              </el-form-item>
-              <el-form-item label="图片">
-                <el-upload
-                  action
-                  :auto-upload="false"
-                  list-type="picture-card"
-                  :limit="1"
-                  :on-preview="see"
-                  :on-change="change"
-                  :on-remove="remove"
-                  :file-list="filelist"
-                >
-                  <i slot="default" class="el-icon-plus"></i>
-                </el-upload>
-                <el-dialog title="查看图片" :visible.sync="dialogVisible" :append-to-body="true">
-                  <img width="100%" :src="dialogImageUrl" alt />
-                </el-dialog>
-              </el-form-item>
-              <el-form-item label="商品规格">
-                <el-select v-model="forminfo.specsid" @change="specsChange" placeholder="请选择">
-                  <el-option
-                    v-for="item in specslist"
-                    :key="item.id"
-                    :label="item.specsname"
-                    :value="item.id"
-                  ></el-option>
-                </el-select>
-              </el-form-item>
-              <el-form-item label="商品属性值">
-                <el-select v-model="forminfo.specsattr" multiple placeholder="请选择">
-                  <el-option v-for="item in attrslist" :key="item" :label="item" :value="item"></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-tab-pane>
-        <el-tab-pane label="详细描述" name="“second">
-          <el-row>
-            <el-col :span="8">
-              <el-form-item label="是否新品">
-                <el-switch v-model="forminfo.isnew" :active-value="1" :inactive-value="2"></el-switch>
-              </el-form-item>
-            </el-col>
-            <el-col>
-              <el-form-item label="是否热卖">
-                <el-switch v-model="forminfo.ishot" :active-value="1" :inactive-value="2"></el-switch>
-              </el-form-item>
-            </el-col>
-            <el-col>
-              <el-form-item label="状态">
-                <el-switch v-model="forminfo.status" :active-value="1" :inactive-value="2"></el-switch>
-              </el-form-item>
-            </el-col>
-            <el-col>
-              <vue-wangeditor ref="wangeditor" width="100%" height="400" id="editor"></vue-wangeditor>
-              <br />
-              <br />
-              <br />
-            </el-col>
-          </el-row>
-        </el-tab-pane>
+        <el-row>
+          <el-col :span="15" :offset="5">
+            <el-form-item label="活动名称" prop="title">
+              <el-input v-model="forminfo.title" placeholder="请输入活动名称"></el-input>
+            </el-form-item>
+            <el-form-item label="活动名称" prop="time">
+              <el-date-picker
+                v-model="value2"
+                type="datetimerange"
+                :picker-options="timm"
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                align="right"
+              ></el-date-picker>
+            </el-form-item>
+            <el-form-item label="一级分类">
+              <el-select v-model="forminfo.first_cateid" @change="topChange" placeholder="请选择">
+                <el-option
+                  v-for="item in catelist"
+                  :key="item.id"
+                  :label="item.catename"
+                  :value="item.id"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="二级分类">
+              <el-select v-model="forminfo.second_cateid" @change="goChange" placeholder="请选择">
+                <el-option
+                  v-for="item in secondlist"
+                  :key="item.id"
+                  :label="item.catename"
+                  :value="item.id"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="选择商品">
+              <el-select v-model="forminfo.goodsid" placeholder="请选择">
+                <el-option
+                  v-for="item in thirdlist"
+                  :key="item.id"
+                  :label="item.goodsname"
+                  :value="item.id"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-tabs>
       <el-row>
         <el-col :span="15" :offset="6">
           <el-form-item label>
-            <el-button type="primary" @click="sumbit">提交</el-button>
+            <el-button type="primary" @click="sumbit">立即添加</el-button>
             <el-button type="warning" @click="reset">重置</el-button>
           </el-form-item>
         </el-col>
@@ -109,20 +65,16 @@
 
 <script>
 import vueWangeditor from "vue-wangeditor";
-import { addGoods, editGoods } from "@/request/goods";
+import { addSeck, editSeck } from "@/request/seckill";
 import { mapGetters, mapActions } from "vuex";
 let defaultItem = {
+  // id: 0,
+  title: "",
+  begintime: "",
+  endtime: "",
   first_cateid: "",
   second_cateid: "",
-  goodsname: "",
-  price: "",
-  market_price: "",
-  img: "",
-  description: "",
-  specsid: "",
-  specsattr: [],
-  isnew: 2,
-  ishot: 2,
+  goodsid: "",
   status: 1, // 状态1正常2禁用
 };
 let resetItem = { ...defaultItem };
@@ -147,16 +99,42 @@ export default {
       rules: {
         // catename: [{ required: true, message: "必填", tigger: "blur" }],
       },
+      thirdlist: [],
       filelist: [],
       activeName: "first",
       secondlist: [],
       attrslist: [],
+      timm: {
+        shortcuts: [
+          {
+            text: "最近一周",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              end.setTime(end.getTime() + 3600 * 1000 * 24 * 7);
+              picker.$emit("pick", [start, end]);
+            },
+          },
+          {
+            text: "最近一个月",
+            onClick(picker) {
+              const end = new Date();
+              const start = new Date();
+              end.setTime(end.getTime() + 3600 * 1000 * 24 * 30);
+              picker.$emit("pick", [start, end]);
+            },
+          },
+        ],
+      },
+
+      value2: "",
     };
   },
   computed: {
     ...mapGetters({
       catelist: "category/catelist",
       specslist: "specs/specslist",
+      goodslist: "goods/goodslist",
     }),
   },
   created() {},
@@ -167,28 +145,36 @@ export default {
     if (!this.specslist.length) {
       this.get_specs_list();
     }
+    if (!this.goodslist.length) {
+      this.get_goods_list();
+    }
   },
+
   methods: {
     ...mapActions({
       get_category_list: "category/get_category_list",
       get_specs_list: "specs/get_specs_list",
       get_goods_list: "goods/get_goods_list",
+      get_seck_list:"seckill/get_seck_list"
     }),
-    see(file) {
-      this.dialogVisible = true;
-      this.dialogImageUrl = file.url;
-    },
-    change(file, filelist) {
-      this.forminfo.img = file.raw;
-    },
-    remove(file, filelist) {
-      this.forminfo.img = "";
-    },
+
     topChange(id) {
+      
       (this.secondlist = []), (this.forminfo.second_cateid = "");
       this.catelist.forEach((val) => {
+        // console.log(val)
         if (val.id == id) {
           this.secondlist = val.children;
+        }
+      });
+    },
+    goChange(id) {
+      console.log(id);
+      (this.thirdlist = []), (this.forminfo.goodsid = "");
+      this.goodslist.forEach((val) => {
+        // console.log(val)
+        if (val.second_cateid == id) {
+          this.thirdlist.push(val);
         }
       });
     },
@@ -202,50 +188,53 @@ export default {
         }
       });
     },
+    goodsChange(id) {
+      this.filelist = [];
+      this.forminfo.goodsid = [];
+      this.goodslist.forEach((val) => {
+        if (val.id == id) {
+          this.filelist = val.attrs;
+        }
+      });
+    },
     setinfo(val) {
-      if (val.img) {
-        this.filelist = [
-          {
-            name: val.catename,
-            url: this.$host + val.img,
-          },
-        ];
-      }
+      // this.value2.begintime = val.begintime
+      // this.value2.endtime = val.endtime
       val.children ? delete val.children : "";
       this.topChange(val.first_cateid);
       this.specsChange(val.specsid);
-      'firstcatename' in val ? delete val.firstcatename:'';
-      'secondcatename' in val ? delete val.secondcatename:'';
-      this.$nextTick(()=>{
-        this.$refs.wangeditor.setHtml(val.description);
-      })
+      "firstcatename" in val ? delete val.firstcatename : "";
+      "secondcatename" in val ? delete val.secondcatename : "";
+
       defaultItem = { ...val };
       this.forminfo = { ...val };
-      
     },
     async sumbit() {
-      // console.log(this.forminfo);
-      this.forminfo.description = this.$refs.wangeditor.getHtml();
+      console.log(this.value2[0].getTime());
+
+      this.forminfo.begintime = this.value2[0].getTime();
+      this.forminfo.endtime = this.value2[1].getTime();
+      console.log(this.forminfo);
       // this.forminfo.description = this.$refs.Wangeditor.getHtml();
       // return ;
-      this.$refs.form.validate(async valid => {
+      this.$refs.form.validate(async (valid) => {
         if (valid) {
           let res;
-          let fd = new FormData();
-          for (let k in this.forminfo) {
-            fd.append(k, this.forminfo[k]);
-          }
+          // let fd = new FormData();
+          // for (let k in this.forminfo) {
+          //   fd.append(k, this.forminfo[k]);
+          // }
           if (this.info.isAdd) {
-            res = await addGoods(fd);
+            res = await addSeck(this.forminfo);
             // console.log(fd.img);
           } else {
-            res = await editGoods(fd);
+            res = await editSeck(this.forminfo);
           }
           if (res.code === 200) {
             this.$message.success(res.msg);
             this.info.isShow = false;
-            this.get_goods_list();
-            this.cancel();
+            this.get_seck_list();
+          
           } else {
             this.$message.error(res.msg);
           }
@@ -264,12 +253,11 @@ export default {
     cancel() {
       //  // 无论是修改成功还是添加成功，都应该让表单为空！或者弹框关闭的时候！
       this.forminfo = { ...resetItem };
-      this.filelist = []; // 设为空，就没有了
-      this.$refs.wangeditor.setHtml('');
+      // this.filelist = []; // 设为空，就没有了
     },
   },
   components: {
-    vueWangeditor
+    vueWangeditor,
   },
 };
 </script>

@@ -5,11 +5,10 @@ import $axios from "@/common/http"  // 导入封装好的axios!
  */
 export async function getBanner(page,size) {
 
-    let res = await $axios.get(`/bannerlist?istree=1`)
-    // ,{
-        // /bannerlist?page=${page}&size=${size}
-        // page,size
-    // })
+    let res = await $axios.get(`/bannerlist?page=${page}&size=${size}`,{
+        // /bannerlist?istree=1
+        page,size
+    })
     if(res.code==200 && res.list){
         return res.list
     }else{

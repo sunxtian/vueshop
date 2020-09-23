@@ -79,4 +79,8 @@ export default {
 };
 </script>
 <style scoped>
+img{
+  height: 50px;
+  width: 40px;
+}
 </style>
