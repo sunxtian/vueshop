@@ -12,7 +12,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {  // 配置跨域代理！！！
       '/api': { // 配置的url请求名字开头
-          target: 'http://localhost:3333/api',
+          target: 'http://localhost:3030/api',
           // secure: false,  // https请求需要该设置
           changeOrigin: true,
           pathRewrite: { 

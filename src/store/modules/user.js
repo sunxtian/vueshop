@@ -81,6 +81,10 @@ export default {
             }else{
                 Message.error(res.msg) 
             }
+        },
+        quit({commit}){
+            commit('QUIT')
+            commit('tagsview/DEL_ALL',null,{root:true})
         }
     }
 };

@@ -7,7 +7,7 @@ export default {
     state: {
         specslist: [],  // 列表
         page: 1, // 页码数
-        size: 1, // 每页数量
+        size: 10, // 每页数量
         total: 0 //总条数
     },
     getters: {

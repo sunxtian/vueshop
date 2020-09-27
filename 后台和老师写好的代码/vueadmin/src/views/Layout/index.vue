@@ -8,6 +8,7 @@
                 <top/>
             </el-header>
             <el-main height="" class="page-main">
+                <tagslist/>
                 <!-- Main content -->
                  <router-view/>
             </el-main>
@@ -17,6 +18,7 @@
 <script>
 import top from "./top"
 import left from "./left"
+import tagslist from "./tagslist"
 import { mapState } from "vuex"
 export default {
     data(){
@@ -27,7 +29,7 @@ export default {
     },
     methods:{},
     components:{
-        top,left
+        top,left,tagslist
     }
 }
 </script>
@@ -43,6 +45,10 @@ export default {
 .page-content{
     height: 100%;
     background-color: #f7f7f7;
+}
+.page-main{
+    position: relative;
+    padding-top: 50px;
 }
 .page-header{
     background-color: #fff;

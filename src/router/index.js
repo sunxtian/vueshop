@@ -32,6 +32,7 @@ let router = new Router({
         { path: '/specs', component: () => import('@/view/Shop/Specs'), meta: { title: "规格管理" } },
         { path: '/seckill', component: () => import('@/view/Shop/Seckill'), meta: { title: "秒杀管理" } },
         { path: '/user', component: () => import('@/view/System/User'), meta: { title: "用户管理" } },
+        { path: '/member', component: () => import('@/view/Shop/Memeber'), meta: { title: "会员管理" } },
        
       ]
 

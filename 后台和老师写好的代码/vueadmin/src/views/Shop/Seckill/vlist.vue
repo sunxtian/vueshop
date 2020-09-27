@@ -1,11 +1,16 @@
 <template>
   <div class="table-bg">
-      <el-table  :data="specslist">
+      <el-table  :data="list">
           <el-table-column prop="id" label="ID" width="120" align="center"></el-table-column>
-          <el-table-column prop="specsname" label="规格名称" align="center"></el-table-column>
-          <el-table-column label="规格值" align="center">
+          <el-table-column prop="title" label="活动名称" align="center"></el-table-column>
+          <el-table-column prop="begintime" label="开始时间" align="center">
               <template slot-scope="scope">
-                  <el-tag v-for="(item,index) in scope.row.attrs" :key="index"  type="success">{{item}}</el-tag>
+                  {{scope.row.begintime|getTime}}
+              </template>
+          </el-table-column>
+          <el-table-column prop="endtime" label="结束时间" align="center">
+               <template slot-scope="scope">
+                  {{scope.row.endtime|getTime}}
               </template>
           </el-table-column>
           <el-table-column label="状态">
@@ -21,48 +26,24 @@
                 </template>
           </el-table-column>
       </el-table>
-      <el-pagination
-      background
-      @size-change="set_size"
-      @current-change="set_page"
-      :current-page="page"
-      :page-sizes="[10, 20, 30, 40]"
-      :page-size="size"
-      layout="total, sizes, prev, pager, next, jumper"
-      :total="total">
-    </el-pagination>
   </div>
 </template>
 <script>
-import { mapGetters,mapActions,mapMutations } from "vuex"
-import { delSpecs } from "@/request/specs"
+import { delSeck,getSeck } from "@/request/seckill"
 export default {
     data(){
         return{
+            list:[]
         }
-    },
-    computed: {
-        ...mapGetters({
-            specslist:"specs/specslist",
-            page:"specs/page",
-            size:"specs/size",
-            total:"specs/total"
-        })
     },
     mounted() {
-        if(!this.specslist.length){
-            this.get_specs_list();
-        }
+        this.getlist();
     },
     methods:{
-        ...mapMutations({
-            SET_PAGE:"specs/SET_PAGE"
-        }),
-        ...mapActions({
-            get_specs_list:"specs/get_specs_list",
-            set_page:"specs/set_page",
-            set_size:"specs/set_size"
-        }),
+        async getlist(){
+            let res = await getSeck();
+            this.list = res;
+        },
         edit(val){
             this.$emit('edit',{...val})
         },
@@ -72,14 +53,10 @@ export default {
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(async ()=>{
-                let res = await delSpecs(id);
+                let res = await delSeck(id);
                 if(res.code==200){
                     this.$message.success(res.msg)
-                    // 如果本页只有1条数据！且不是第1页！
-                    if(this.specslist.length==1 && this.page!=1){
-                        this.SET_PAGE(this.page-1)
-                    }
-                    this.get_specs_list(); // 重新获取列表！
+                    this.getlist();
                 }else{
                     this.$message.error(res.msg)
                 }

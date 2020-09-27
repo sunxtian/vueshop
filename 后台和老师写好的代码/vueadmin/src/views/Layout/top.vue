@@ -16,14 +16,14 @@
           </span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item @click.native="togglescreenfull"> <i class="el-icon-full-screen"></i> {{isfull ? '退出全屏':'全屏操作'}}</el-dropdown-item>
-            <el-dropdown-item @click.native="QUIT"> <i class="el-icon-switch-button"></i> 退出登录</el-dropdown-item>
+            <el-dropdown-item @click.native="quit"> <i class="el-icon-switch-button"></i> 退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
      </div>
   </div>
 </template>
 <script>
-import { mapState,mapMutations,mapGetters } from "vuex"
+import { mapState,mapMutations,mapGetters, mapActions } from "vuex"
 // 全屏插件
 import screenfull from 'screenfull'
 export default {
@@ -40,8 +40,10 @@ export default {
     },
     methods:{
       ...mapMutations({
-        TOGGLE:"TOGGLE",
-        QUIT:"user/QUIT"
+        TOGGLE:"TOGGLE"
+      }),
+      ...mapActions({
+        quit:"user/quit"
       }),
       togglescreenfull(){
         if (!screenfull.isEnabled) {

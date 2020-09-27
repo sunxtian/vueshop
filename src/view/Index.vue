@@ -76,7 +76,7 @@ export default {
         ];
          t2data.series[0].data = [120, 200, 150, 80, 70, 110, 130]
         this.t2data = t2data
-    },3000)
+    },1000)
   },
   methods: {},
   components: {
@@ -88,15 +88,17 @@ export default {
 <style scoped>
 
 .box {
-  width: 510px;
+  width: 500px;
   height:250px;
+  margin: 20px 0 ;
   display:inline-block;
+  background-image: (top left -45deg, green, red 5px, white 5px, #ccc 10px);
   background:#fff;
   box-shadow:0 0 4px 0 rgba(0, 0, 0, 0.3);
   color: chartreuse;
 }
 .title {
-  border: 2px solid blue;
+  /* border: 2px solid blue; */
   background-color: '#2c343c',
 }
 #ccc {

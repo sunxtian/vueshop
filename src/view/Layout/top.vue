@@ -19,14 +19,7 @@
         icon="el-icon-s-unfold"
         circle
       ></el-button>
-      <!-- <el-button
-        
-        type="primary"
-        size="big"
-        
-        class="toggle-btn"
-        icon="el-icon-s-fold"
-      ></el-button>-->
+      
       <el-breadcrumb style="margin:10px" separator-class="el-icon-arrow-right">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
         <el-breadcrumb-item :to="{ path:'/menu'}">{{$route.meta.title}}</el-breadcrumb-item>
@@ -53,8 +46,8 @@
 </template>
 
 <script>
-import { mapMutations,mapGetters } from "vuex";
-import { mapState } from "vuex";
+import { mapState,mapMutations,mapGetters,mapActions } from "vuex";
+
 export default {
   data() {
     return {};
@@ -69,7 +62,10 @@ export default {
   methods: {
     ...mapMutations({
       change: "change",
-      QUIT: "user/QUIT",
+      // QUIT: "user/quit",
+    }),
+    ...mapActions({
+      QUIT: "user/quit",
     }),
     handleClick() {
       alert("button click");
