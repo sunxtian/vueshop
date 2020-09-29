@@ -40,7 +40,7 @@ export default {
 <style scoped>
 .page {
   width: 100vw;
-  height: 100vh;
+  /* height: 100vh; */
 }
 .page-nav {
   height: 100%;

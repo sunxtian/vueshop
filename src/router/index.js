@@ -18,7 +18,7 @@ let router = new Router({
     {
       path: '/',
       component: () => import('@/view/Layout'), meta: { title: "xxx管理系统" },
-      redirect:"/index",
+      redirect: "/index",
       children: [
         {
           path: '/index', component: () => import('@/view/Index'), meta: { title: "后台首页" }
@@ -33,29 +33,29 @@ let router = new Router({
         { path: '/seckill', component: () => import('@/view/Shop/Seckill'), meta: { title: "秒杀管理" } },
         { path: '/user', component: () => import('@/view/System/User'), meta: { title: "用户管理" } },
         { path: '/member', component: () => import('@/view/Shop/Memeber'), meta: { title: "会员管理" } },
-       
+
       ]
 
 
     },
-    
+
 
 
   ]
 })
-router.beforeEach((to,from,next)=>{
-  if (to.path=="/login"){  // 1、要去的地址是登录页面！
+router.beforeEach((to, from, next) => {
+  if (to.path == "/login") {  // 1、要去的地址是登录页面！
     document.title = to.meta.title
-    next();   
-  }else{  // 2、不是登录页面！就需要判断是否登录了！登录了才可以访问！
-    if(localStorage.getItem("userinfo")){  // 登录了！
+    next();
+  } else {  // 2、不是登录页面！就需要判断是否登录了！登录了才可以访问！
+    if (localStorage.getItem("userinfo")) {  // 登录了！
       let whiteList = store.getters['user/menus_url'];
       whiteList.push('/index')
-      if(whiteList.includes(to.path)){  // 去的地址在 该用户可以访问的地址池中！
+      if (whiteList.includes(to.path)) {  // 去的地址在 该用户可以访问的地址池中！
         document.title = to.meta.title
         next();
       }
-    }else{ // 没有登录就想访问是直接跳转到登录页面！
+    } else { // 没有登录就想访问是直接跳转到登录页面！
       next('/login')
     }
   }
